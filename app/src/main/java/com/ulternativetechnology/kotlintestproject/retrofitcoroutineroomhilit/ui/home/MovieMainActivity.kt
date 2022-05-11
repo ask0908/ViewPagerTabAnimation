@@ -17,6 +17,8 @@ import com.ulternativetechnology.kotlintestproject.retrofitcoroutineroomhilit.ut
 import com.ulternativetechnology.kotlintestproject.retrofitcoroutineroomhilit.util.contentView
 import dagger.hilt.android.AndroidEntryPoint
 
+/* https://www.youtube.com/watch?v=EmiZ-yLEkkM (1편)
+* https://www.youtube.com/watch?v=DaPU9Zt90KU (2편) */
 @AndroidEntryPoint
 class MovieMainActivity : AppCompatActivity(), RecyclerViewHomeClickListener {
 
@@ -31,7 +33,7 @@ class MovieMainActivity : AppCompatActivity(), RecyclerViewHomeClickListener {
         setContentView(R.layout.activity_movie_main)
 
         binding.run {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR          //  set status text dark
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR          // set status text dark
             window.statusBarColor = ContextCompat.getColor(applicationContext,R.color.white)    // set status background white
 
             recyclerView.apply {
@@ -43,7 +45,9 @@ class MovieMainActivity : AppCompatActivity(), RecyclerViewHomeClickListener {
         observeUI()
     }
 
+    /* API 요청 결과에 따라 자동으로 뷰를 갱신시킴 */
     private fun observeUI() {
+        // 뷰모델 안의 MutableLiveData에 담기는 값을 관찰한다
         homeViewModel.moviePopular.observe(this) {
             when (it) {
                 is Resource.Success -> {

@@ -21,7 +21,8 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
     val moviePopular: MutableLiveData<Resource<MoviesResponse>> = MutableLiveData()
 
-    fun fetchPopular(apikey: String){
+    fun fetchPopular(apikey: String) {
+        // 뷰모델 코루틴이 실행되기 전엔 로딩 중이라는 sealed class의 자식 클래스를 넣는
         moviePopular.postValue(Resource.Loading())
         viewModelScope.launch {
             try {
@@ -30,9 +31,9 @@ class HomeViewModel @Inject constructor(
                     moviePopular.postValue(Resource.Success(response.body()!!))
                 } else
                     moviePopular.postValue(Resource.Error("No Internet Connection"))
-            } catch (ex: Exception) {
-                when (ex) {
-                    is IOException -> moviePopular.postValue(Resource.Error("Network Failure " +  ex.localizedMessage))
+            } catch (e: Exception) {
+                when (e) {
+                    is IOException -> moviePopular.postValue(Resource.Error("Network Failure : " + e.localizedMessage))
                     else -> moviePopular.postValue(Resource.Error("Conversion Error"))
                 }
             }
